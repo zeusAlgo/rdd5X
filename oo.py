@@ -12,13 +12,6 @@ readOnly = p.Reddit(client_id=map['clientId'], client_secret=map['clientSecret']
 for idx, post in enumerate(readOnly.subreddit('boxing').hot(limit=5), 1):
     print(idx, post.title)
 
-print(rd.read_only)
-rd.read_only = True
-print(rd.read_only)
-
-for post in rd.subreddit('boxing').hot(limit=3):
-    print(post.title)
-
 title = 'Wilder is amazing'
 body = 'Wilder is not the best boxer. Yet, he remains an remarkable individual given his upbringing.'
 # rd.subreddit('boxing').submit(title=title, selftext=body)
