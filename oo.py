@@ -10,10 +10,10 @@ rd = p.Reddit(client_id=hashmap['clientId'], client_secret=hashmap['clientSecret
 
 readOnly = p.Reddit(client_id=hashmap['clientId'], client_secret=hashmap['clientSecret'],
                     user_agent=hashmap['userAgent'])
-for post in readOnly.subreddit('boxing').hot(limit=5):
-    print(post.title)
 
-for idx, post in readONly.subreddit('')
+for idx, post in enumerate(readOnly.subreddit('boxing').hot(limit=5), 1):
+    print(idx, post.title)
+
 
 title = 'Wilder is amazing'
 body = 'Wilder is not the best boxer. Yet, he remains an remarkable individual given his upbringing.'
