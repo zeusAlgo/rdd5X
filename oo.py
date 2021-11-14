@@ -1,5 +1,4 @@
 import praw as p
-
 hashmap = {'clientId': '9EMA9bZJNOr-3jDNFPR8Ug', 'clientSecret': 'DjcpA3XYXiO3O0eH0sEwrrF_xkzx8w',
            'userAgent': 'web:placetimely532:1(by u/PlaceTimely532)',
            'username': 'PlaceTimely532', 'password': 'zxh4NG4vAd7PDcp'}
