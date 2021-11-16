@@ -20,4 +20,7 @@ def comment():
     for post in rd.subreddit('boxing').stream.submissions():
         post.reply('Intriguing perspective')
 
+
+print('--')
+
 # comment()
