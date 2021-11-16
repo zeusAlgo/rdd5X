@@ -5,10 +5,10 @@ from urllib.parse import quote_plus
 
 map = {'clientId': '9EMA9bZJNOr-3jDNFPR8Ug', 'clientSecret': 'DjcpA3XYXiO3O0eH0sEwrrF_xkzx8w',
        'userAgent': 'web:placetimely532:1(by u/PlaceTimely532)',
-       'username': 'PlaceTimely532', 'password': 'zxh4NG4vAd7PDcp'}
+       'username': 'PlaceTimely532', 'password': 'zZEKHwSTzDgCCq9'}
 
 client_auth = requests.auth.HTTPBasicAuth('9EMA9bZJNOr-3jDNFPR8Ug', 'DjcpA3XYXiO3O0eH0sEwrrF_xkzx8w')
-post_data = {"grant_type": "password", "username": "PlaceTimely532", "password": "zxh4NG4vAd7PDcp"}
+post_data = {"grant_type": "password", "username": "PlaceTimely532", "password": "zZEKHwSTzDgCCq9"}
 headers = {"User-Agent": "web:placetimely532:1(by u/PlaceTimely532)"}
 response = requests.post("https://www.reddit.com/api/v1/access_token", auth=client_auth, data=post_data,
                          headers=headers)
