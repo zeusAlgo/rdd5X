@@ -6,7 +6,7 @@ map = {'clientId': '9EMA9bZJNOr-3jDNFPR8Ug', 'clientSecret': 'DjcpA3XYXiO3O0eH0s
 rd, readOnly = p.Reddit(client_id=map['clientId'], client_secret=map['clientSecret'],
                         user_agent=map['userAgent'], username=map['username'], password=map['password']), \
                p.Reddit(client_id=map['clientId'], client_secret=map['clientSecret'], user_agent=map['userAgent'])
-sub = rd.subreddit('boxing')
+sub = rd.subreddit('gaming')
 
 
 def commEnum(reqComm):
@@ -21,10 +21,12 @@ def postEnum(reqPosts):
 
 
 def comment():
-    for idx, post in enumerate(rd.subreddit('boxing').stream.submissions()):
+    for idx, post in enumerate(sub.stream.submissions()):
         if idx == 0:
-            post.reply('According to Clarence and his calculation from "Coming to America" while discussing fight '
-                       'with Rocky Marciano, Joe Louis was 136 years old when he fought Ezzard Charles.')
+            post.reply('Antón Castillo will feel like a real and credible threat. He is more of a satirical mash-up '
+                       'of Franco and Castro. He is certainly a bad guy with a vision for his country that he holds '
+                       'above all—even family, as he often reminds his son and protégé, Diego—but there is a '
+                       'two-dimensional vibe I just can not shake.')
         else: break
 
 
