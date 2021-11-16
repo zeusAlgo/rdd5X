@@ -6,7 +6,6 @@ map = {'clientId': '9EMA9bZJNOr-3jDNFPR8Ug', 'clientSecret': 'DjcpA3XYXiO3O0eH0s
 rd, readOnly = p.Reddit(client_id=map['clientId'], client_secret=map['clientSecret'],
                         user_agent=map['userAgent'], username=map['username'], password=map['password']), \
                p.Reddit(client_id=map['clientId'], client_secret=map['clientSecret'], user_agent=map['userAgent'])
-
 sub = rd.subreddit('boxing')
 
 
@@ -28,5 +27,4 @@ def comment():
 
 postEnum(5)
 commEnum(5)
-
 # comment()
