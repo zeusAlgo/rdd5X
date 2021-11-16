@@ -44,6 +44,6 @@ rd2 = p.Reddit(user_agent=map['userAgent'], client_id=map['clientId'], client_se
 for comment in readOnly.subreddit('boxing').comments(limit=10):
     print(comment.body)
 
-for post in .subreddit('boxing').stream.submissions():
+for post in rd3.subreddit('boxing').stream.submissions():
     post.reply('Fascinating')
     print('x')
