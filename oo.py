@@ -14,11 +14,11 @@ response = requests.post("https://www.reddit.com/api/v1/access_token", auth=clie
                          headers=headers)
 response.json()
 print(response.json())
-# headers = {"Authorization": "bearer fhTdafZI-0ClEzzYORfBSCR7x3M",
-#            "User-Agent": "web:placetimely532:1(by u/PlaceTimely532)"}
-# response1 = requests.get("https://oauth.reddit.com/api/v1/PlaceTimely532", headers=headers)
-# response1.json()
-
+headers = {"Authorization": "bearer 1293885880213-w0vPtPUl0yNL8xFu0cbO4FAx8uxCZw",
+           "User-Agent": "web:placetimely532:1(by u/PlaceTimely532)"}
+response1 = requests.get("https://oauth.reddit.com/api/v1/me", headers=headers)
+response1.json()
+print(response1.json())
 rd = p.Reddit(client_id=map['clientId'], client_secret=map['clientSecret'],
               user_agent=map['userAgent'], username=map['username'], password=map['password'])
 
