@@ -9,7 +9,7 @@ rd, readOnly = p.Reddit(client_id=map['clientId'], client_secret=map['clientSecr
 
 sub = rd.subreddit('boxing')
 
-for idx, post in enumerate(readOnly.subreddit('boxing').hot(limit=5), 1):
+for idx, post in enumerate(sub.hot(limit=5), 1):
     print(idx, post.title)
     if idx == 5: print('--')
 
