@@ -13,7 +13,7 @@ headers = {"User-Agent": "web:placetimely532:1(by u/PlaceTimely532)"}
 response = requests.post("https://www.reddit.com/api/v1/access_token", auth=client_auth, data=post_data,
                          headers=headers)
 response.json()
-
+print(response.json())
 # headers = {"Authorization": "bearer fhTdafZI-0ClEzzYORfBSCR7x3M",
 #            "User-Agent": "web:placetimely532:1(by u/PlaceTimely532)"}
 # response1 = requests.get("https://oauth.reddit.com/api/v1/PlaceTimely532", headers=headers)
@@ -22,7 +22,13 @@ response.json()
 rd = p.Reddit(client_id=map['clientId'], client_secret=map['clientSecret'],
               user_agent=map['userAgent'], username=map['username'], password=map['password'])
 
+rd3 = p.Reddit(client_id='9EMA9bZJNOr-3jDNFPR8Ug', client_secret='DjcpA3XYXiO3O0eH0sEwrrF_xkzx8w',
+               password='zxh4NG4vAd7PDcp', user_agent='web:placetimely532:1(by u/PlaceTimely532)',
+               username='PlaceTimely532')
+
 readOnly = p.Reddit(client_id=map['clientId'], client_secret=map['clientSecret'], user_agent=map['userAgent'])
+
+print(rd3.user.me())
 
 for idx, post in enumerate(readOnly.subreddit('boxing').hot(limit=5), 1):
     print(idx, post.title)
