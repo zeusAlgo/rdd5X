@@ -14,6 +14,11 @@ response = requests.post("https://www.reddit.com/api/v1/access_token", auth=clie
                          headers=headers)
 response.json()
 
+# headers = {"Authorization": "bearer fhTdafZI-0ClEzzYORfBSCR7x3M",
+#            "User-Agent": "web:placetimely532:1(by u/PlaceTimely532)"}
+# response1 = requests.get("https://oauth.reddit.com/api/v1/PlaceTimely532", headers=headers)
+# response1.json()
+
 rd = p.Reddit(client_id=map['clientId'], client_secret=map['clientSecret'],
               user_agent=map['userAgent'], username=map['username'], password=map['password'])
 
@@ -27,26 +32,13 @@ sub = rd.subreddit('boxing')
 rd1 = p.Reddit(client_id=map['clientId'], client_secret=map['clientSecret'], password=map['password'],
                user_agent=map['userAgent'], username=map['username'])
 
-# rd2 = p.Reddit(user_agent=map['userAgent'], client_id=map['clientId'], client_secret=map['clientSecret'],
-#                username=map['username'], password=map['password'])
-#
-# for post in rd2.subreddit('boxing').stream.submissions():
-#     post.reply('Fascinating')
-#     print('x')
+rd2 = p.Reddit(user_agent=map['userAgent'], client_id=map['clientId'], client_secret=map['clientSecret'],
+               username=map['username'], password=map['password'])
+
 
 for comment in readOnly.subreddit('boxing').comments(limit=10):
     print(comment.body)
 
-print(sub.display_name)
-comments = sub.stream.comments()
-print(rd.read_only)
-
-# for comment in comments:
-#     text, author = comment.body, comment.author
-#     if 'wilder' in text.lower():
-#         reply = 'Fascinating'
-#     comment.reply(reply)
-
-title = 'Wilder is amazing'
-body = 'Wilder is not the best boxer. Yet, he remains an remarkable individual given his upbringing.'
-# rd.subreddit('boxing').submit(title=title, selftext=body)
+for post in readOnly.subreddit('boxing').stream.submissions():
+    post.reply('Fascinating')
+    print('x')
