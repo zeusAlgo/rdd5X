@@ -9,12 +9,16 @@ rd, readOnly = p.Reddit(client_id=map['clientId'], client_secret=map['clientSecr
 
 sub = rd.subreddit('boxing')
 
-for idx, post in enumerate(sub.hot(limit=5), 1):
-    print(idx, post.title)
-    if idx == 5: print('--')
 
-for idx, comment in enumerate(sub.comments(limit=10), 1):
-    print(idx, comment.body)
+def commEnum(reqComm):
+    for idx, comment in enumerate(sub.comments(limit=10), 1):
+        print(idx, comment.body)
+
+
+def postEnum(reqPosts):
+    for idx, post in enumerate(sub.hot(limit=reqPosts), 1):
+        print(idx, post.title)
+        if idx == 5: print('--')
 
 
 def comment():
@@ -22,6 +26,7 @@ def comment():
         post.reply('Intriguing perspective')
 
 
-print('--')
+postEnum(5)
+commEnum(5)
 
 # comment()
