@@ -18,17 +18,16 @@ headers = {"Authorization": "bearer 1293885880213-w0vPtPUl0yNL8xFu0cbO4FAx8uxCZw
            "User-Agent": "web:placetimely532:1(by u/PlaceTimely532)"}
 response1 = requests.get("https://oauth.reddit.com/api/v1/me", headers=headers)
 response1.json()
-print(response1.json())
+
 rd = p.Reddit(client_id=map['clientId'], client_secret=map['clientSecret'],
               user_agent=map['userAgent'], username=map['username'], password=map['password'])
 
 rd3 = p.Reddit(client_id='9EMA9bZJNOr-3jDNFPR8Ug', client_secret='DjcpA3XYXiO3O0eH0sEwrrF_xkzx8w',
-               password='zxh4NG4vAd7PDcp', user_agent='web:placetimely532:1(by u/PlaceTimely532)',
+               password='zZEKHwSTzDgCCq9', user_agent='web:placetimely532:1(by u/PlaceTimely532)',
                username='PlaceTimely532')
 
 readOnly = p.Reddit(client_id=map['clientId'], client_secret=map['clientSecret'], user_agent=map['userAgent'])
 
-print(rd3.user.me())
 
 for idx, post in enumerate(readOnly.subreddit('boxing').hot(limit=5), 1):
     print(idx, post.title)
@@ -45,6 +44,6 @@ rd2 = p.Reddit(user_agent=map['userAgent'], client_id=map['clientId'], client_se
 for comment in readOnly.subreddit('boxing').comments(limit=10):
     print(comment.body)
 
-for post in readOnly.subreddit('boxing').stream.submissions():
+for post in .subreddit('boxing').stream.submissions():
     post.reply('Fascinating')
     print('x')
