@@ -1,12 +1,11 @@
 import praw as p
+import requests
+import requests.auth
 from urllib.parse import quote_plus
 
 map = {'clientId': '9EMA9bZJNOr-3jDNFPR8Ug', 'clientSecret': 'DjcpA3XYXiO3O0eH0sEwrrF_xkzx8w',
        'userAgent': 'web:placetimely532:1(by u/PlaceTimely532)',
        'username': 'PlaceTimely532', 'password': 'zxh4NG4vAd7PDcp'}
-
-import requests
-import requests.auth
 
 client_auth = requests.auth.HTTPBasicAuth('9EMA9bZJNOr-3jDNFPR8Ug', 'DjcpA3XYXiO3O0eH0sEwrrF_xkzx8w')
 post_data = {"grant_type": "password", "username": "PlaceTimely532", "password": "zxh4NG4vAd7PDcp"}
