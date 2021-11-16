@@ -20,14 +20,12 @@ map = {'clientId': '9EMA9bZJNOr-3jDNFPR8Ug', 'clientSecret': 'DjcpA3XYXiO3O0eH0s
 
 rd = p.Reddit(client_id=map['clientId'], client_secret=map['clientSecret'],
               user_agent=map['userAgent'], username=map['username'], password=map['password'])
+sub = rd.subreddit('boxing')
 
 readOnly = p.Reddit(client_id=map['clientId'], client_secret=map['clientSecret'], user_agent=map['userAgent'])
 
-
 for idx, post in enumerate(readOnly.subreddit('boxing').hot(limit=5), 1):
     print(idx, post.title)
-
-sub = rd.subreddit('boxing')
 
 for comment in sub.comments(limit=10):
     print(comment.body)
