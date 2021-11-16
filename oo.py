@@ -13,7 +13,7 @@ for idx, post in enumerate(readOnly.subreddit('boxing').hot(limit=5), 1):
     print(idx, post.title)
 
 for idx, comment in enumerate(sub.comments(limit=10), 1):
-    print(comment.body)
+    print(idx, comment.body)
 
 
 def comment():
