@@ -25,6 +25,7 @@ def comment():
         if idx == 0:
             post.reply('According to Clarence and his calculation from "Coming to America" while discussing fight '
                        'with Rocky Marciano, Joe Louis was 136 years old when he fought Ezzard Charles.')
+        else: break
 
 
 postEnum(5)
