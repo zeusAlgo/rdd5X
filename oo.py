@@ -1,8 +1,19 @@
 import praw as p
+from urllib.parse import quote_plus
 
 map = {'clientId': '9EMA9bZJNOr-3jDNFPR8Ug', 'clientSecret': 'DjcpA3XYXiO3O0eH0sEwrrF_xkzx8w',
        'userAgent': 'web:placetimely532:1(by u/PlaceTimely532)',
        'username': 'PlaceTimely532', 'password': 'zxh4NG4vAd7PDcp'}
+
+import requests
+import requests.auth
+
+client_auth = requests.auth.HTTPBasicAuth('9EMA9bZJNOr-3jDNFPR8Ug', 'DjcpA3XYXiO3O0eH0sEwrrF_xkzx8w')
+post_data = {"grant_type": "password", "username": "PlaceTimely532", "password": "zxh4NG4vAd7PDcp"}
+headers = {"User-Agent": "web:placetimely532:1(by u/PlaceTimely532)"}
+response = requests.post("https://www.reddit.com/api/v1/access_token", auth=client_auth, data=post_data,
+                         headers=headers)
+response.json()
 
 rd = p.Reddit(client_id=map['clientId'], client_secret=map['clientSecret'],
               user_agent=map['userAgent'], username=map['username'], password=map['password'])
@@ -27,10 +38,10 @@ rd1 = p.Reddit(client_id=map['clientId'], client_secret=map['clientSecret'], pas
 for comment in readOnly.subreddit('boxing').comments(limit=10):
     print(comment.body)
 
-
 print(sub.display_name)
 comments = sub.stream.comments()
 print(rd.read_only)
+
 # for comment in comments:
 #     text, author = comment.body, comment.author
 #     if 'wilder' in text.lower():
