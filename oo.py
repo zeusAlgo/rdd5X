@@ -2,7 +2,10 @@ import praw as p
 import torch
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
 from transformers import GPTJForCausalLM
+from transformers import GPTNeoForCausalLM
 import torch.nn
+from transformers import pipeline
+import yaml
 import torch.distributed
 
 map = {'clientId': '9EMA9bZJNOr-3jDNFPR8Ug', 'clientSecret': 'DjcpA3XYXiO3O0eH0sEwrrF_xkzx8w',
@@ -25,9 +28,6 @@ def postEnum(reqPosts):
         if idx == 5: print('--')
 
 
-
-
-
 def gen(prompt):
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     print(f'Using {torch.cuda.get_device_name()}')
@@ -39,22 +39,36 @@ def gen(prompt):
     # print("Output:\n" + 100 * '-')
     # print(tokenizer.decode(greedy_output[0], skip_special_tokens=True))
 
-    tokenizer = GPT2Tokenizer.from_pretrained("EleutherAI/gpt-j-6B")
-    model = GPT2LMHeadModel.from_pretrained("EleutherAI/gpt-j-6B", pad_token_id=tokenizer.eos_token_id)
+    # generator = pipeline('text-generation', model="EleutherAI/gpt-neo-2.7B")
+    # print(generator(prompt, do_sample=True, min_length=50))
 
-    torch.cuda.set_device(0)
-    torch.distributed.init_process_group(
-        backend='nccl', world_size=0, init_method='...'
-    )
-    model = torch.nn.parallel.DistributedDataParallel(model, device_ids=[0], output_device=0)
+    tokenizer = GPT2Tokenizer.from_pretrained("EleutherAI/gpt-neo-2.7B")
+    # model = GPT2LMHeadModel.from_pretrained("EleutherAI/gpt-j-6B", revision='float16',
+    #                                         torch_dtype=torch.float16, low_cpu_mem_usage=True).to(device)
 
+    model = GPTNeoForCausalLM.from_pretrained("EleutherAI/gpt-neo-2.7B").to(device)
+    #
+    # torch.cuda.set_device(0)
+    # torch.distributed.init_process_group(
+    #     backend='nccl', world_size=0, init_method='...'
+    # )
+    # model = torch.nn.parallel.DistributedDataParallel(model, device_ids=[0], output_device=0)
+    #
+    # torch.cuda.set_device(1)
+    # torch.distributed.init_process_group(
+    #     backend='nccl', world_size=1, init_method='...'
+    # )
+    # model = torch.nn.parallel.DistributedDataParallel(model, device_ids=[1], output_device=1)
+    #
+    # torch.cuda.set_device(2)
+    # torch.distributed.init_process_group(
+    #     backend='nccl', world_size=2, init_method='...'
+    # )
+    # model = torch.nn.parallel.DistributedDataParallel(model, device_ids=[2], output_device=2)
 
-
-
-    model = torch.nn.parallel.DistributedDataParallel(model)
-    model.to(device)
-    input_ids = tokenizer.encode(prompt, return_tensors='pt')
-    greedy_output = model.generate(input_ids, max_length=100)
+    # model.to(device)
+    input_ids = tokenizer.encode(prompt, return_tensors='pt').to(device)
+    greedy_output = model.generate(input_ids, temperature=0.99, max_length=100).to(device)
     print("Output:\n" + 100 * '-')
     print(tokenizer.decode(greedy_output[0], skip_special_tokens=True))
 
