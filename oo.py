@@ -1,4 +1,6 @@
 import praw as p
+import transformers as t
+from transformers import GPT2Tokenizer, GPT2LMHeadModel
 
 map = {'clientId': '9EMA9bZJNOr-3jDNFPR8Ug', 'clientSecret': 'DjcpA3XYXiO3O0eH0sEwrrF_xkzx8w',
        'userAgent': 'web:placetimely532:1(by u/PlaceTimely532)',
@@ -20,9 +22,22 @@ def postEnum(reqPosts):
         if idx == 5: print('--')
 
 
+def gen():
+
+    tokenizer = GPT2Tokenizer.from_pretrained('gpt2-xl')
+    model = GPT2LMHeadModel.from_pretrained('gpt2-xl')
+
+    inputs = tokenizer("Hello, my dog is cute", return_tensors="pt")
+    outputs = model(**inputs, labels=inputs["input_ids"])
+    loss = outputs.loss
+    logits = outputs.logits
+    print(outputs)
+
+
 def comment():
     for idx, post in enumerate(sub.stream.submissions()):
         if idx == 0:
+
             post.reply('Antón Castillo will feel like a real and credible threat. He is more of a satirical mash-up '
                        'of Franco and Castro. He is certainly a bad guy with a vision for his country that he holds '
                        'above all—even family, as he often reminds his son and protégé, Diego—but there is a '
@@ -32,4 +47,5 @@ def comment():
 
 postEnum(5)
 commEnum(5)
-comment()
+gen()
+# comment()
