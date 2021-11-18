@@ -1,12 +1,8 @@
 import praw as p
 import torch
-from transformers import GPT2LMHeadModel, GPT2Tokenizer
-from transformers import GPTJForCausalLM
-from transformers import GPTNeoForCausalLM
 import torch.nn
-from transformers import pipeline
-import yaml
-import torch.distributed
+from transformers import GPT2Tokenizer
+from transformers import GPTNeoForCausalLM
 
 map = {'clientId': '9EMA9bZJNOr-3jDNFPR8Ug', 'clientSecret': 'DjcpA3XYXiO3O0eH0sEwrrF_xkzx8w',
        'userAgent': 'web:placetimely532:1(by u/PlaceTimely532)',
@@ -18,33 +14,46 @@ sub = rd.subreddit('gaming')
 
 
 def commEnum(reqComm):
-    for idx, comment in enumerate(sub.comments(limit=10), 1):
+    for idx, comment in enumerate(sub.comments(limit=reqComm), 1):
         print(idx, comment.body)
 
 
 def postEnum(reqPosts):
     for idx, post in enumerate(sub.hot(limit=reqPosts), 1):
         print(idx, post.title)
-        if idx == 5: print('--')
+        if idx == reqPosts: print('--')
 
 
-def gen(prompt):
+def genNeo(prompt):
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
-    print(f'Using {torch.cuda.get_device_name()}')
-    tokenizer, model = GPT2Tokenizer.from_pretrained("EleutherAI/gpt-neo-2.7B"), \
-                       GPTNeoForCausalLM.from_pretrained("EleutherAI/gpt-neo-2.7B").to(device)
-    inputIds = tokenizer.encode(prompt, return_tensors='pt').to(device)
-    greedy_output = model.generate(inputIds, temperature=10, max_length=100).to(device)
-    print("Output:\n" + 100 * '-')
-    print(tokenizer.decode(greedy_output[0], skip_special_tokens=True))
+    tokenizer, model = GPT2Tokenizer.from_pretrained('EleutherAI/gpt-neo-2.7B'), \
+                       GPTNeoForCausalLM.from_pretrained('EleutherAI/gpt-neo-2.7B').to(device)
+    tokenize = tokenizer.encode(prompt, return_tensors='pt').to(device)
+    decoder = model.generate(tokenize, temperature=10, max_length=100).to(device)
+    print("Output:\n" + 80 * '-')
+    print(tokenizer.decode(decoder[0], skip_special_tokens=True))
 
 
-for idx, post in enumerate(sub.stream.submissions()):
-    if idx == 0:
-        print(post.title)
-        gen(post.title)
-    else:
-        break
+def genJ(prompt):
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    tokenizer, model = GPT2Tokenizer.from_pretrained('EleutherAI/gpt-neo-2.7B'), \
+                       GPTNeoForCausalLM.from_pretrained('EleutherAI/gpt-neo-2.7B').to(device)
+    tokenize = tokenizer.encode(prompt, return_tensors='pt').to(device)
+    decoder = model.generate(tokenize, temperature=10, max_length=100).to(device)
+    print("Output:\n" + 80 * '-')
+    print(tokenizer.decode(decoder[0], skip_special_tokens=True))
+
+
+def decode():
+    for idx, post in enumerate(sub.stream.submissions()):
+        if idx == 0:
+            print(post.title)
+            genJ(post.title)
+        else:
+            break
+
+
+decode()
 
 
 def comment():
@@ -60,6 +69,6 @@ def comment():
             break
 
 
-postEnum(5)
-commEnum(5)
+postEnum(3)
+commEnum(3)
 # comment()
