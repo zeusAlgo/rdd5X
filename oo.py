@@ -23,9 +23,13 @@ def postEnum(reqPosts):
 
 
 def gen(prompt):
+    device = 'cuda' if torch.cuda.device(1) else 'cpu'
+    print(f'Using {device}')
+
     tokenizer = GPT2Tokenizer.from_pretrained("gpt2-xl")
-    model = GPT2LMHeadModel.from_pretrained("gpt2-xl", pad_token_id=tokenizer.eos_token_id)
-    input_ids = tokenizer.encode('I love sex.', return_tensors='tf')
+
+    model = GPT2LMHeadModel.from_pretrained("gpt2-xl", pad_token_id=tokenizer.eos_token_id).to(device)
+    input_ids = tokenizer.encode('I love sex.', return_tensors='pt').to(device)
     greedy_output = model.generate(input_ids, max_length=50)
     print("Output:\n" + 100 * '-')
     print(tokenizer.decode(greedy_output[0], skip_special_tokens=True))
