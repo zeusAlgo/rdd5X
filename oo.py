@@ -1,7 +1,6 @@
 import praw as p
-import transformers as t
-from transformers import GPT2Tokenizer, GPT2LMHeadModel
-from transformers import AutoModelForCausalLM, AutoTokenizer
+import torch
+from transformers import GPT2LMHeadModel, GPT2Tokenizer
 
 map = {'clientId': '9EMA9bZJNOr-3jDNFPR8Ug', 'clientSecret': 'DjcpA3XYXiO3O0eH0sEwrrF_xkzx8w',
        'userAgent': 'web:placetimely532:1(by u/PlaceTimely532)',
@@ -24,14 +23,12 @@ def postEnum(reqPosts):
 
 
 def gen(prompt):
-    model = AutoModelForCausalLM.from_pretrained("gpt2-xl")
-    tokenizer = AutoTokenizer.from_pretrained("gpt2-xl")
-    inputs = tokenizer(prompt, add_special_tokens=False, return_tensors="pt")["input_ids"]
-
-    prompt_length = len(tokenizer.decode(inputs[0]))
-    outputs = model.generate(inputs, max_length=250, do_sample=True, top_p=0.95, top_k=60)
-    generated = prompt + tokenizer.decode(outputs[0])[prompt_length + 1:]
-    print(generated)
+    tokenizer = GPT2Tokenizer.from_pretrained("gpt2-xl")
+    model = GPT2LMHeadModel.from_pretrained("gpt2-xl", pad_token_id=tokenizer.eos_token_id)
+    input_ids = tokenizer.encode('I love sex.', return_tensors='tf')
+    greedy_output = model.generate(input_ids, max_length=50)
+    print("Output:\n" + 100 * '-')
+    print(tokenizer.decode(greedy_output[0], skip_special_tokens=True))
 
 
 for idx, post in enumerate(sub.stream.submissions()):
