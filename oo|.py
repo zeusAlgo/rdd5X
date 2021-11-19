@@ -25,10 +25,11 @@ def postEnum(reqPosts):
 def genJ(prompt):
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     tokenizer, model = AutoTokenizer.from_pretrained('EleutherAI/gpt-j-6B'), \
-                       GPTJForCausalLM.from_pretrained('EleutherAI/gpt-j-6B', torch_dtype=torch.float16).to(device)
+                       GPTJForCausalLM.from_pretrained('EleutherAI/gpt-j-6B',
+                                                       torch_dtype=torch.float16).to(device)
     tokenize = tokenizer.encode(prompt, return_tensors='pt').to(device)
     decoder = model.generate(tokenize, temperature=1, max_length=80).to(device)
-    print(f"Output:\n" + 80 * '-', {tokenizer.batch_decode(decoder)[0]}, "\n" + 80 * '-')
+    print(f'-' * 80 + '\n', tokenizer.batch_decode(decoder)[0], '\n' + 80 * '-')
 
 
 def decode():
