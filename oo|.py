@@ -8,7 +8,7 @@ map = {'clientId': '9EMA9bZJNOr-3jDNFPR8Ug', 'clientSecret': 'DjcpA3XYXiO3O0eH0s
 rd, readOnly = p.Reddit(client_id=map['clientId'], client_secret=map['clientSecret'],
                         user_agent=map['userAgent'], username=map['username'], password=map['password']), \
                p.Reddit(client_id=map['clientId'], client_secret=map['clientSecret'], user_agent=map['userAgent'])
-sub = rd.subreddit('gaming')
+sub = rd.subreddit('boxing')
 
 
 def commEnum(reqComm):
@@ -22,24 +22,13 @@ def postEnum(reqPosts):
         if idx == reqPosts: print('--')
 
 
-def genNeo(prompt):
-    device = 'cuda' if torch.cuda.is_available() else 'cpu'
-    tokenizer, model = GPT2Tokenizer.from_pretrained('EleutherAI/gpt-neo-2.7B'), \
-                       GPTNeoForCausalLM.from_pretrained('EleutherAI/gpt-neo-2.7B').to(device)
-    tokenize = tokenizer.encode(prompt, return_tensors='pt').to(device)
-    decoder = model.generate(tokenize, temperature=10, max_length=100).to(device)
-    print("Output:\n" + 80 * '-')
-    print(tokenizer.decode(decoder[0], skip_special_tokens=True))
-
-
 def genJ(prompt):
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     tokenizer, model = AutoTokenizer.from_pretrained('EleutherAI/gpt-j-6B'), \
                        GPTJForCausalLM.from_pretrained('EleutherAI/gpt-j-6B', torch_dtype=torch.float16).to(device)
     tokenize = tokenizer.encode(prompt, return_tensors='pt').to(device)
     decoder = model.generate(tokenize, temperature=1, max_length=80).to(device)
-    print("Output:\n" + 80 * '-')
-    print(tokenizer.batch_decode(decoder)[0])
+    print(f"Output:\n" + 80 * '-', {tokenizer.batch_decode(decoder)[0]}, "\n" + 80 * '-')
 
 
 def decode():
