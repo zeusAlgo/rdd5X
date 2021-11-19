@@ -1,6 +1,6 @@
 import praw as p
 import torch
-from transformers import GPT2Tokenizer, GPTJForCausalLM, GPTNeoForCausalLM, AutoTokenizer, AutoModelForCausalLM
+from transformers import GPTJForCausalLM, GPTNeoForCausalLM, AutoTokenizer, AutoModelForCausalLM
 
 map = {'clientId': '9EMA9bZJNOr-3jDNFPR8Ug', 'clientSecret': 'DjcpA3XYXiO3O0eH0sEwrrF_xkzx8w',
        'userAgent': 'web:placetimely532:1(by u/PlaceTimely532)',
@@ -23,12 +23,12 @@ def postEnum(reqPosts):
 
 
 def gen(tokens):
-    device = 'cuda' if torch.cuda.is_available() else 'cpu'
-    tokenizer, model = AutoTokenizer.from_pretrained('EleutherAI/gpt-j-6B'), \
-                       GPTJForCausalLM.from_pretrained('EleutherAI/gpt-j-6B', torch_dtype=torch.float16).to(device)
+    device, gptJ = 'cuda', 'EleutherAI/gpt-j-6B'
+    tokenizer, model = AutoTokenizer.from_pretrained(gptJ), \
+                       GPTJForCausalLM.from_pretrained(gptJ, torch_dtype=torch.float16).to(device)
     tokenize = tokenizer.encode(tokens, return_tensors='pt').to(device)
-    decoder = model.generate(tokenize, temperature=1, max_length=80).to(device)
-    inf = tokenizer.batch_decode(decoder)[0]
+    decoder = model.generate(tokenize, temperature=1, max_length=60).to(device)
+    inf = tokenizer.batch_decode(decoder)[0][len(tokens):].strip()
     print(f'-' * 80 + '\n', inf, '\n' + 80 * '-')
     return inf
 
@@ -64,5 +64,5 @@ def comment():
 
 postEnum(3)
 commEnum(3)
-# decode()
-comment()
+decode()
+# comment()
