@@ -8,7 +8,7 @@ map = {'clientId': '9EMA9bZJNOr-3jDNFPR8Ug', 'clientSecret': 'DjcpA3XYXiO3O0eH0s
 rd, readOnly = p.Reddit(client_id=map['clientId'], client_secret=map['clientSecret'],
                         user_agent=map['userAgent'], username=map['username'], password=map['password']), \
                p.Reddit(client_id=map['clientId'], client_secret=map['clientSecret'], user_agent=map['userAgent'])
-sub = rd.subreddit('boxing')
+sub = rd.subreddit('gaming')
 
 
 def commEnum(reqComm):
@@ -22,41 +22,47 @@ def postEnum(reqPosts):
         if idx == reqPosts: print('--')
 
 
-def genJ(prompt):
+def gen(tokens):
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     tokenizer, model = AutoTokenizer.from_pretrained('EleutherAI/gpt-j-6B'), \
-                       GPTJForCausalLM.from_pretrained('EleutherAI/gpt-j-6B',
-                                                       torch_dtype=torch.float16).to(device)
-    tokenize = tokenizer.encode(prompt, return_tensors='pt').to(device)
+                       GPTJForCausalLM.from_pretrained('EleutherAI/gpt-j-6B', torch_dtype=torch.float16).to(device)
+    tokenize = tokenizer.encode(tokens, return_tensors='pt').to(device)
     decoder = model.generate(tokenize, temperature=1, max_length=80).to(device)
-    print(f'-' * 80 + '\n', tokenizer.batch_decode(decoder)[0], '\n' + 80 * '-')
+    inf = tokenizer.batch_decode(decoder)[0]
+    print(f'-' * 80 + '\n', inf, '\n' + 80 * '-')
+    return inf
 
 
 def decode():
     for idx, post in enumerate(sub.stream.submissions()):
         if idx == 0:
             print(post.title)
-            genJ(post.title)
+            gen(post.title)
         else:
             break
 
 
-decode()
+def sum():
+    a, b = 2, 3
+    c = a + b
+    return c
+
+
+def printLn():
+    x = sum()
+    print(x)
 
 
 def comment():
     for idx, post in enumerate(sub.stream.submissions()):
         if idx == 0:
-            genJ(post)
-            string = post
-            post.reply('Antón Castillo will feel like a real and credible threat. He is more of a satirical mash-up '
-                       'of Franco and Castro. He is certainly a bad guy with a vision for his country that he holds '
-                       'above all—even family, as he often reminds his son and protégé, Diego—but there is a '
-                       'two-dimensional vibe I just can not shake.')
+            print(post.title)
+            post.reply(gen(post.title))
         else:
             break
 
 
 postEnum(3)
 commEnum(3)
-# comment()
+# decode()
+comment()
