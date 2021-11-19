@@ -1,8 +1,6 @@
 import praw as p
 import torch
-import torch.nn
-from transformers import GPT2Tokenizer
-from transformers import GPTNeoForCausalLM
+from transformers import GPT2Tokenizer, GPTJForCausalLM, GPTNeoForCausalLM, AutoTokenizer, AutoModelForCausalLM
 
 map = {'clientId': '9EMA9bZJNOr-3jDNFPR8Ug', 'clientSecret': 'DjcpA3XYXiO3O0eH0sEwrrF_xkzx8w',
        'userAgent': 'web:placetimely532:1(by u/PlaceTimely532)',
@@ -36,12 +34,12 @@ def genNeo(prompt):
 
 def genJ(prompt):
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
-    tokenizer, model = GPT2Tokenizer.from_pretrained('EleutherAI/gpt-neo-2.7B'), \
-                       GPTNeoForCausalLM.from_pretrained('EleutherAI/gpt-neo-2.7B').to(device)
+    tokenizer, model = AutoTokenizer.from_pretrained('EleutherAI/gpt-j-6B'), \
+                       GPTJForCausalLM.from_pretrained('EleutherAI/gpt-j-6B', torch_dtype=torch.float16).to(device)
     tokenize = tokenizer.encode(prompt, return_tensors='pt').to(device)
-    decoder = model.generate(tokenize, temperature=10, max_length=100).to(device)
+    decoder = model.generate(tokenize, temperature=1, max_length=80).to(device)
     print("Output:\n" + 80 * '-')
-    print(tokenizer.decode(decoder[0], skip_special_tokens=True))
+    print(tokenizer.batch_decode(decoder)[0])
 
 
 def decode():
@@ -59,7 +57,7 @@ decode()
 def comment():
     for idx, post in enumerate(sub.stream.submissions()):
         if idx == 0:
-            gen(post)
+            genJ(post)
             string = post
             post.reply('Antón Castillo will feel like a real and credible threat. He is more of a satirical mash-up '
                        'of Franco and Castro. He is certainly a bad guy with a vision for his country that he holds '
