@@ -36,21 +36,10 @@ def gen(tokens):
 def decode():
     for idx, post in enumerate(sub.stream.submissions()):
         if idx == 0:
-            print(post.title)
+            print(f'Comment == {post.title}')
             gen(post.title)
         else:
             break
-
-
-def sum():
-    a, b = 2, 3
-    c = a + b
-    return c
-
-
-def printLn():
-    x = sum()
-    print(x)
 
 
 def comment():
