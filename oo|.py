@@ -26,6 +26,7 @@ def gen(tokens):
     device, gptJ = 'cuda', 'EleutherAI/gpt-j-6B'
     tokenizer, model = AutoTokenizer.from_pretrained(gptJ), \
                        GPTJForCausalLM.from_pretrained(gptJ, torch_dtype=torch.float16).to(device)
+    # TODO: get fully parameterized model functional
     tokenize = tokenizer.encode(tokens, return_tensors='pt').to(device)
     decoder = model.generate(tokenize, temperature=1, max_length=60).to(device)
     inf = tokenizer.batch_decode(decoder)[0][len(tokens):].strip()
