@@ -8,7 +8,7 @@ map = {'clientId': '9EMA9bZJNOr-3jDNFPR8Ug', 'clientSecret': 'DjcpA3XYXiO3O0eH0s
 rd, readOnly = p.Reddit(client_id=map['clientId'], client_secret=map['clientSecret'],
                         user_agent=map['userAgent'], username=map['username'], password=map['password']), \
                p.Reddit(client_id=map['clientId'], client_secret=map['clientSecret'], user_agent=map['userAgent'])
-sub = rd.subreddit('gaming')
+sub = rd.subreddit('boxing')
 
 
 def commEnum(reqComm):
@@ -38,6 +38,7 @@ def decode():
         if idx == 0:
             print(f'Comment == {post.title}')
             gen(post.title)
+            # TODO: ensure reply is grammatically correct sentence
         else:
             break
 
