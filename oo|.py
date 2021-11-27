@@ -22,8 +22,6 @@ def postEnum(reqPosts):
         if idx == reqPosts: print('--')
 
 
-
-
 def gen(tokens):
     device, gptJ = 'cuda', 'EleutherAI/gpt-j-6B'
     tokenizer, model = AutoTokenizer.from_pretrained(gptJ), \
