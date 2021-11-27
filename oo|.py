@@ -22,16 +22,19 @@ def postEnum(reqPosts):
         if idx == reqPosts: print('--')
 
 
+
+
 def gen(tokens):
     device, gptJ = 'cuda', 'EleutherAI/gpt-j-6B'
     tokenizer, model = AutoTokenizer.from_pretrained(gptJ), \
                        GPTJForCausalLM.from_pretrained(gptJ, torch_dtype=torch.float16).to(device)
-    # TODO: get fully parameterized model functional
+
     tokenize = tokenizer.encode(tokens, return_tensors='pt').to(device)
     decoder = model.generate(tokenize, temperature=1, max_length=60).to(device)
     inf = tokenizer.batch_decode(decoder)[0][len(tokens):].strip()
     print(f'-' * 80 + '\n', inf, '\n' + 80 * '-')
     return inf
+# TODO: get fully parameterized model functional
 
 
 def decode():
@@ -39,9 +42,9 @@ def decode():
         if idx == 0:
             print(f'Comment == {post.title}')
             gen(post.title)
-            # TODO: ensure reply is grammatically correct sentence
         else:
             break
+# TODO: ensure reply is grammatically correct sentence
 
 
 def comment():
